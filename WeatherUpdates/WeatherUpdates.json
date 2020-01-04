@@ -1,0 +1,111 @@
+[
+    {
+        "id": "1a034a30.06c446",
+        "type": "tab",
+        "label": "Flow 1",
+        "disabled": false,
+        "info": ""
+    },
+    {
+        "id": "e147003b.565a1",
+        "type": "say",
+        "z": "1a034a30.06c446",
+        "name": "",
+        "voice": "Kathy",
+        "x": 710,
+        "y": 340,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "ebd3eeed.eb36c",
+        "type": "openweathermap",
+        "z": "1a034a30.06c446",
+        "name": "PearlandWeather",
+        "wtype": "current",
+        "lon": "",
+        "lat": "",
+        "city": "Pearland",
+        "country": "United States",
+        "language": "en",
+        "x": 310,
+        "y": 340,
+        "wires": [
+            [
+                "1d363528.0ffadb"
+            ]
+        ]
+    },
+    {
+        "id": "f1e00be.5c05ef8",
+        "type": "debug",
+        "z": "1a034a30.06c446",
+        "name": "",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "true",
+        "targetType": "full",
+        "x": 710,
+        "y": 440,
+        "wires": []
+    },
+    {
+        "id": "1d363528.0ffadb",
+        "type": "function",
+        "z": "1a034a30.06c446",
+        "name": "PoppulatePayload",
+        "func": "var temperature = msg.data.main.temp;\ntemperature = (temperature - 273.15).toFixed(2);\n\nvar detail = \"Hello, this is a weather update. \\nThe current weather in Pearland is \"\ndetail += msg.payload.detail;\ndetail += \".\\nThe temperature is \"\ndetail += temperature;\ndetail += \"degree Celsius\"\nvar myObject = [\n    {\n        \"update\": detail\n    }\n];\n//msg.payload= JSON.stringify(myObject);\nmsg.payload = detail;\nreturn msg;\n\n//return message;",
+        "outputs": 1,
+        "noerr": 0,
+        "x": 530,
+        "y": 340,
+        "wires": [
+            [
+                "f1e00be.5c05ef8",
+                "e147003b.565a1"
+            ]
+        ]
+    },
+    {
+        "id": "284dc31a.08c01c",
+        "type": "inject",
+        "z": "1a034a30.06c446",
+        "name": "",
+        "topic": "",
+        "payload": "",
+        "payloadType": "date",
+        "repeat": "",
+        "crontab": "",
+        "once": false,
+        "onceDelay": 0.1,
+        "x": 120,
+        "y": 340,
+        "wires": [
+            [
+                "ebd3eeed.eb36c"
+            ]
+        ]
+    },
+    {
+        "id": "89ccb76a.fea718",
+        "type": "openweathermap in",
+        "z": "1a034a30.06c446",
+        "name": "PearlandChangedWeather",
+        "wtype": "current",
+        "lon": "",
+        "lat": "",
+        "city": "Pearland",
+        "country": "United States",
+        "language": "en",
+        "x": 330,
+        "y": 420,
+        "wires": [
+            [
+                "1d363528.0ffadb"
+            ]
+        ]
+    }
+]
